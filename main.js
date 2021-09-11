@@ -1,8 +1,18 @@
 // TODO: Add your import statements here.
+import {
+  getRoles,
+  getCompanies
+} from './modules/salaryData.js'
 
+import {
+  getAverageSalaryByRole,
+  getAverageSalaryByCompany,
+  getSalaryAtCompany,
+  getIndustryAverageSalary
+} from './modules/workAroundModule.js';
 // TODO: Get the companies and roles using the salaryData module.
-const companies = [];
-const roles = [];
+const companies = getCompanies();
+const roles = getRoles();
 
 // Create input buttons for every company and role represented in the data.
 renderInputButtons(companies, 'company');
@@ -44,19 +54,21 @@ function renderInputButtons(labels, groupName) {
   document.querySelector('main').prepend(container);
 }
 
-function updateResults(){
+function updateResults() {
   // Get the current selected company and role from the radio button inputs.
   const company = document.querySelector("input[name='company']:checked").value;
   const role = document.querySelector("input[name='role']:checked").value;
 
   // If either the company or role is unselected, return.
-  if (!company || !role) { return; }
+  if (!company || !role) {
+    return;
+  }
 
   // TODO: Use the workAroundModule functions to calculate the needed data.
-  const averageSalaryByRole = 0;
-  const averageSalaryByCompany = 0;
-  const salary = 0;
-  const industryAverageSalary = 0;
+  const averageSalaryByRole = getAverageSalaryByRole(role);
+  const averageSalaryByCompany = getAverageSalaryByCompany(company);
+  const salary = getSalaryAtCompany(role, company);
+  const industryAverageSalary = getIndustryAverageSalary();
 
   // Render them to the screen.
   document.getElementById('salarySelected').innerText = `The salary for ${role}s at ${company} is \$${salary}`;
@@ -64,6 +76,3 @@ function updateResults(){
   document.getElementById('salaryAverageByCompany').innerText = `The average salary at ${company} is \$${averageSalaryByCompany}`;
   document.getElementById('salaryAverageIndustry').innerText = `The average salary in the Tech industry is \$${industryAverageSalary}`;
 }
-
-
-
